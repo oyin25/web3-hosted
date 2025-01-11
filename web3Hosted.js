@@ -53,15 +53,20 @@ const web3Hosted = {
     const header = document.createElement("div");
     header.className = "web3Hosted-header";
 
+    const infoButton = document.createElement("img");
+    infoButton.className = "web3Hosted-backing-btn";
+    infoButton.src = "https://api.realscan.top/images/info-info.svg";
+    infoButton.alt = "Back";
+    infoButton.style.cursor = "pointer";
+    infoButton.addEventListener("click", () => {
+      web3Hosted.info(options);
+      });
+    header.appendChild(infoButton);
+
     const title = document.createElement("h2");
     title.className = "web3Hosted-title";
     title.innerText = options.title;
     header.appendChild(title);
-
-    const infoButton = document.createElement("img");
-    infoButton.className = "web3Hosted-info-btn";
-    infoButton.src = "https://api.realscan.top/images/close-icon.svg";
-    infoButton.alt = "Info";
 
     const closeButton = document.createElement("img");
     closeButton.className = "web3Hosted-close-btn";
@@ -80,7 +85,6 @@ const web3Hosted = {
     });
 
     header.appendChild(closeButton);
-    header.appendChild(infoButton);
     container.appendChild(header);
 
     // Add container to body
@@ -239,7 +243,7 @@ const web3Hosted = {
       closeButton.alt = "Close";
       closeButton.style.cursor = "pointer";
       closeButton.addEventListener("click", () => {
-        console.log("Nextpage Close button clicked!");
+        //console.log("Nextpage Close button clicked!");
 
         // Trigger the `onClose` callback if provided
         if (options && typeof options.onClose === "function") {
@@ -350,7 +354,7 @@ const web3Hosted = {
     }
   },
 
-  info: function () {
+  info: function (options) {
     const container = web3Hosted.sheet;
 
     if (container) {
@@ -365,7 +369,9 @@ const web3Hosted = {
       backButton.src = "https://api.realscan.top/images/back-icon.svg";
       backButton.alt = "Back";
       backButton.style.cursor = "pointer";
-      backButton.addEventListener("click", () => web3Hosted.hosted({}));
+      backButton.addEventListener("click", () => {
+         web3Hosted.hosted(options);
+        });
       header.appendChild(backButton);
 
       const title = document.createElement("h2");

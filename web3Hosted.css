@@ -284,17 +284,6 @@
   filter: var(--icon-filter); /* Apply filter from CSS variables */
   transition: filter 0.3s ease; /* Smooth transition for hover effect */
 }
-/* Close Button */
-.web3Hosted-header .web3Hosted-close-btn .web3Hosted-left-icon {
-  position: absolute;
-  right: 20px;
-  /* Align to the right side */
-  font-size: 20px;
-  color: var(--text-color);
-  cursor: pointer;
-  filter: var(--icon-filter); /* Apply filter from CSS variables */
-  transition: filter 0.3s ease; /* Smooth transition for hover effect */
-}
 
 .web3Hosted-close-btn {
   width: 24px; /* Set width for the close icon */
