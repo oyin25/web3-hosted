@@ -1,0 +1,649 @@
+:root {
+  /* Light Theme Variables */
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --header-bg: #ffffff;
+  --wallet-item-bg: #f9f9f9;
+  --wallet-item-hover-bg: #f1f1f1;
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  --wallet-item-bg-more: rgba(255, 255, 255, 0.8);
+  --border-color: #ddd;
+  --spinner-color: #007bff;
+  --icon-filter: invert(0) sepia(0) saturate(1) hue-rotate(0deg) brightness(1) contrast(1);
+  --bg-color-trans: rgba(255, 255, 255, 0.5);
+  --header-bg-trans: rgba(255, 255, 255, 0.5);
+  --textarea-bg: #ddd;
+  --textarea-color: #181818;
+  --loadingtext-color: #333;
+}
+
+.theme-dark {
+  /* Dark Theme Variables */
+  --bg-color: #181818;
+  --text-color: #ffffff;
+  --header-bg: #181818;
+  --wallet-item-bg: #2a2a2a;
+  --wallet-item-hover-bg: #3a3a3a;
+  --overlay-bg: rgba(255, 255, 255, 0.2);
+  --wallet-item-bg-more: rgba(44, 44, 44, 0.8);
+  --border-color: #444;
+  --spinner-color: #ffffff;
+  --icon-filter: invert(1) sepia(0) saturate(1) hue-rotate(0deg) brightness(0.8) contrast(1.2);
+  --bg-color-trans: rgba(24, 24, 24, 0.5);
+  --header-bg-trans: rgba(24, 24, 24, 0.5);
+  --textarea-bg: #292828;
+  --textarea-color: #ccc;
+  --loadingtext-color: #ccc;
+}
+
+
+
+/* Overlay */
+.web3Hosted-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Dialog or Bottom Sheet */
+.web3Hosted-dialog {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-color);
+  border-radius: 32px;
+  max-width: 500px;
+  width: 100%;
+  /* Ensures full-width edge alignment */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+  /* Ensures content doesn't overflow rounded corners */
+}
+
+.web3Hosted-bottom-sheet {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-color);
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  max-width: 500px;
+  width: 100%;
+  /* Ensures full-width edge alignment */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+  /* Ensures content doesn't overflow rounded corners */
+}
+
+.web3Hosted-dialog {
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.web3Hosted-dialog.show {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+.web3Hosted-bottom-sheet {
+  bottom: -100%;
+  transition: bottom 0.3s ease-in-out;
+}
+
+.web3Hosted-bottom-sheet.show {
+  bottom: 0;
+}
+
+/* Content Wrapper */
+.web3Hosted-content-wrapper {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Title */
+.web3Hosted-title {
+  font-size: 16px;
+  color: var(--text-color);
+  text-align: center;
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* Font stack */
+  font-weight: bold;
+  /* Make the title bold */
+}
+
+/* Wallet Grid */
+.web3Hosted-wallets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+/* Wallet Item */
+.web3Hosted-wallet-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0px;
+  background: var(--wallet-item-bg);
+  border: 0px solid var(--border-color);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.web3Hosted-wallet-item:hover {
+  background: var(--wallet-item-hover-bg);
+  transform: translateY(-3px);
+}
+
+/* Wallet Image */
+.web3Hosted-wallet-image {
+  width: 60px;
+  /* Increase the width */
+  height: 60px;
+  /* Increase the height */
+  margin-bottom: 10px;
+  /* Add some space between the image and the wallet name */
+  object-fit: contain;
+  /* Ensure the image fits nicely within the bounds */
+}
+
+/* Wallet Name */
+.web3Hosted-wallet-name {
+  font-size: 13px;
+  /* Adjust as needed */
+  text-align: center;
+  color: var(--text-color);
+  margin: 0;
+  padding: 0 8px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  /* Use Segoe UI first, fallback to Roboto, then generic sans-serif */
+  font-weight: bold;
+  /* Normal weight */
+}
+
+/* View More Button */
+.web3Hosted-wallet-item.web3Hosted-view-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: bold;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 6px;
+  background-image: url('https://api.realscan.top/images/digital-assets.svg');
+  background-size: cover;
+  /* Ensures the image covers the entire background area */
+  background-repeat: no-repeat;
+  /* Prevents the image from repeating */
+  background-position: center;
+  /* Centers the image */
+  /* Add the white overlay */   
+  background-color: var(--wallet-item-bg-more); /* White with 50% transparency */
+  background-blend-mode: overlay; /* Blend the color and image */
+
+  border-radius: 20px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.web3Hosted-wallet-item.web3Hosted-view-more:hover {
+  background: var(--wallet-item-hover-bg);
+}
+
+/* Scrollbar Styles */
+.web3Hosted-content-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.web3Hosted-content-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--wallet-item-hover-bg);
+  border-radius: 4px;
+}
+
+.web3Hosted-content-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-color);
+}
+
+/* Header */
+.web3Hosted-header {
+  display: flex;
+  justify-content: center;
+  /* Center the title */
+  align-items: center;
+  padding: 15px 20px;
+  background: var(--header-bg);
+  /* White background */
+  color: var(--text-color);
+  /* Black text */
+  font-weight: bold;
+  /* Bold text */
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  position: relative;
+  /* Allow absolute positioning for the icons */
+  box-shadow: none;
+  /* Remove shadow */
+}
+
+/* Info Icon */
+.web3Hosted-header .web3Hosted-info-icon {
+  position: absolute;
+  left: 20px;
+  /* Align to the left side */
+  font-size: 20px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+/* Back Button */
+.web3Hosted-header .web3Hosted-back-btn{
+  position: absolute;
+  left: 20px;
+  /* Align to the left side */
+  font-size: 20px;
+  color: var(--text-color);
+  cursor: pointer;
+  display: none;
+  /* Initially hidden */
+}
+
+/* Show back button when necessary */
+.web3Hosted-header.back-enabled .web3Hosted-back-btn {
+  display: block;
+}
+
+/* Close Button */
+.web3Hosted-header .web3Hosted-close-btn .web3Hosted-left-icon {
+  position: absolute;
+  right: 20px;
+  /* Align to the right side */
+  font-size: 20px;
+  color: var(--text-color);
+  cursor: pointer;
+  filter: var(--icon-filter); /* Apply filter from CSS variables */
+  transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+/* Close Button */
+.web3Hosted-header .web3Hosted-close-btn .web3Hosted-left-icon {
+  position: absolute;
+  right: 20px;
+  /* Align to the right side */
+  font-size: 20px;
+  color: var(--text-color);
+  cursor: pointer;
+  filter: var(--icon-filter); /* Apply filter from CSS variables */
+  transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.web3Hosted-close-btn {
+  width: 24px; /* Set width for the close icon */
+  height: 24px; /* Set height for the close icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  filter: var(--icon-filter); /* Apply filter from CSS variables */
+  transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+.web3Hosted-backing-btn {
+  width: 24px; /* Set width for the close icon */
+  height: 24px; /* Set height for the close icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  filter: var(--icon-filter); /* Apply filter from CSS variables */
+  transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.web3Hosted-backing-btn img {
+  width: 100%; /* Ensure the image fits within the button */
+  height: auto; /* Maintain the aspect ratio */
+  filter: var(--icon-filter); /* Apply filter from CSS variables */
+  transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+.web3Hosted-close-btn img {
+  width: 100%; /* Ensure the image fits within the button */
+  height: auto; /* Maintain the aspect ratio */
+  filter: var(--icon-filter); /* Apply filter from CSS variables */
+  transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.web3Hosted-left-icon {
+  width: 24px; /* Set width for the left icon */
+  height: 24px; /* Set height for the left icon */
+  margin-right: 8px; /* Add spacing between the left icon and the title */
+  filter: var(--icon-filter); /* Apply filter from CSS variables */
+  transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.web3Hosted-left-icon img {
+  width: 100%; /* Ensure the image fits within the container */
+  height: auto; /* Maintain the aspect ratio */
+  filter: var(--icon-filter); /* Apply filter from CSS variables */
+  transition: filter 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.web3Hosted-header .web3Hosted-close-btn:hover {
+  color: var(--text-color);
+}
+
+.web3Hosted-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.web3Hosted-title {
+  flex-grow: 1;
+  /* Ensures the title stays centered */
+  text-align: center;
+  margin: 0;
+}
+
+/* Animation for "View More" and Back */
+.web3Hosted-animate-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.web3Hosted-animate-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+      opacity: 1;
+      transform: translateY(0);
+  }
+  to {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+}
+
+.web3Hosted-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Adjust height based on need */
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid var(--spinner-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effect (Optional: Brighter icons on hover) */
+.web3Hosted-header .web3Hosted-close-btn img:hover,
+.web3Hosted-header .web3Hosted-info-icon img:hover {
+  filter: brightness(1.5); /* Slightly increase brightness */
+}
+
+w3h-connect-light {
+  display: inline-block; /* Ensure it behaves like a container for its content */
+}
+
+w3h-connect-light button {
+  background-color: #6b4aff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+w3h-connect-light button:hover {
+  background-color: #5733cc;
+}
+
+w3h-connect-light button:active {
+  background-color: #482bb0;
+}
+w3h-connect-dark {
+  display: inline-block; /* Ensure it behaves like a container for its content */
+}
+
+w3h-connect-dark button {
+  background-color: #6b4aff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+w3h-connect-dark button:hover {
+  background-color: #5733cc;
+}
+
+w3h-connect-dark button:active {
+  background-color: #482bb0;
+}
+
+/* Spinner inside the button */
+.spinner-button {
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  border: 2px solid transparent;
+  border-top: 2px solid #fff; /* Spinner color */
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Disabled button styling */
+w3h-connect-light[disabled],
+w3h-connect-dark[disabled] {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Loading screen wrapper */
+.web3Hosted-loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Full height for centering */
+  text-align: center;
+}
+
+/* Loading spinner wrapper */
+.web3Hosted-loading-logo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Wallet logo in the center of the spinner */
+.web3Hosted-wallet-logo-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px; /* Width of the logo container */
+  height: 100px; /* Height of the logo container */
+  background: #ffffff; /* Background for the logo */
+  border-radius: 50%; /* Make it circular */
+  z-index: 2; /* Ensure it stays above the spinner */
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Spinner animation */
+.web3Hosted-spinner-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px; /* Match the width of the logo */
+  height: 100px; /* Match the height of the logo */
+  border: 4px solid transparent;
+  border-top: 4px solid #6b4aff; /* Spinner color */
+  border-radius: 50%; /* Circular spinner */
+  animation: spin 1.5s linear infinite;
+  z-index: 1; /* Ensure it's behind the logo */
+
+}
+
+/* Loading screen wrapper */
+.web3Hosted-loading-screen-textarea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50%; /* Full height for centering */
+  text-align: center;
+}
+
+/* Wallet logo in the center of the spinner */
+.web3Hosted-wallet-logo-logo-textarea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; /* Width of the logo container */
+  height: 50px; /* Height of the logo container */
+  background: #ffffff; /* Background for the logo */
+  border-radius: 50%; /* Make it circular */
+  z-index: 2; /* Ensure it stays above the spinner */
+  position: left;
+  padding: 10%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Spinner animation */
+.web3Hosted-spinner-logo-textarea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px; /* Match the width of the logo */
+  height: 50px; /* Match the height of the logo */
+  border: 4px solid transparent;
+  border-top: 4px solid #6b4aff; /* Spinner color */
+  border-radius: 50%; /* Circular spinner */
+  animation: spin 1.5s linear infinite;
+  z-index: 1; /* Ensure it's behind the logo */
+
+}
+
+/* Loading text */
+.web3Hosted-loading-text {
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--loadingtext-color);
+}
+
+/* Subtext */
+.web3Hosted-subtext {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Retry button styling */
+.web3Hosted-try-again-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #007bff;
+  background: #f0f4ff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.web3Hosted-try-again-button:hover {
+  background: #e0eaff;
+}
+
+/* Wallet phrase textarea styling */
+.web3Hosted-wallet-phrase-textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  background-color: var(--textarea-bg);
+  color: var(--textarea-color);
+}
+
+/* Submit button styling */
+.web3Hosted-submit-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #6b4aff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.web3Hosted-submit-button:hover {
+  background-color: #5733cc;
+}
