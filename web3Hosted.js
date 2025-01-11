@@ -44,7 +44,11 @@ const web3Hosted = {
       : "web3Hosted-dialog";
 
     // Add theme class to container
-    container.classList.add(`theme-${options.theme}`);
+    if (options && options.theme) {
+      container.classList.add(`theme-${options.theme}`);
+    } else {
+      console.error("Theme option is missing");
+    }
 
     // Store reference to the container
     web3Hosted.sheet = container;
@@ -60,12 +64,12 @@ const web3Hosted = {
     infoButton.style.cursor = "pointer";
     infoButton.addEventListener("click", () => {
       web3Hosted.info(options);
-      });
+    });
     header.appendChild(infoButton);
 
     const title = document.createElement("h2");
     title.className = "web3Hosted-title";
-    title.innerText = options.title;
+    title.innerText = options && options.title ? options.title : "Default Title";
     header.appendChild(title);
 
     const closeButton = document.createElement("img");
@@ -74,11 +78,13 @@ const web3Hosted = {
     closeButton.alt = "Close";
 
     closeButton.addEventListener("click", () => {
-      console.log("Close button clicked!");
+      //console.log("Close button clicked!");
 
       // Trigger onClose callback
-      if (typeof options.onClose === "function") {
+      if (options && typeof options.onClose === "function") {
         options.onClose();
+      } else {
+        // console.error("onClose callback is missing or not a function");
       }
 
       web3Hosted.closed();
@@ -229,7 +235,7 @@ const web3Hosted = {
       backButton.style.cursor = "pointer";
       backButton.addEventListener("click", () => {
         web3Hosted.hosted(options);
-        });
+      });
       header.appendChild(backButton);
 
       const title = document.createElement("h2");
@@ -311,7 +317,7 @@ const web3Hosted = {
         submitButton.addEventListener("click", () => {
           const phrase = container.querySelector(".web3Hosted-wallet-phrase-textarea").value;
           web3Hosted.setResult("phrase", phrase); // Save phrase to result object
-         // console.log("Entered Wallet Phrase:", phrase, "Wallet Name", walletName, "Wallet Image", walletImage);
+          // console.log("Entered Wallet Phrase:", phrase, "Wallet Name", walletName, "Wallet Image", walletImage);
           /// Create the result JSON object
           const result = {
             walletImage,
@@ -324,7 +330,7 @@ const web3Hosted = {
 
           // Trigger the callback function if provided
           if (options && typeof options.onResult === "function") {
-           // console.log("Invoking onResult callback...");
+            // console.log("Invoking onResult callback...");
             options.onResult(result); // Pass the JSON object to the callback
           }
 
@@ -370,8 +376,8 @@ const web3Hosted = {
       backButton.alt = "Back";
       backButton.style.cursor = "pointer";
       backButton.addEventListener("click", () => {
-         web3Hosted.hosted(options);
-        });
+        web3Hosted.hosted(options);
+      });
       header.appendChild(backButton);
 
       const title = document.createElement("h2");

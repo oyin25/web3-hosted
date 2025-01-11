@@ -636,3 +636,7 @@ w3h-connect-dark[disabled] {
 .web3Hosted-submit-button:hover {
   background-color: #5733cc;
 }
+
+.no-background-interaction {
+  pointer-events: none;
+}
